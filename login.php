@@ -71,7 +71,7 @@ $action = '';
 			echo '</body></html>';
 			exit();
 		} elseif($action == 'resetPassword'){
-?>
+?>--
 			<div class="container">
 			  <div class="row justify-content-center">
 			  <div class="col-sm-12 col-md-5 col-lg-5">
@@ -140,7 +140,7 @@ $action = '';
 						<input type="password" class="form-control" id="resetPasswordPassword2" name="resetPasswordPassword2">
 					  </div> -->
 			  <button type="button" id="login" class="btn btn-primary"> Admin Login</button>
-			  <a href="employee.php" class="btn btn-success">Employee Login</a>
+			 <!--  <a href="employee.php" class="btn btn-success">Employee Login</a> -->
 			  
 			  <button type="reset" class="btn">Clear</button>
 			</form>

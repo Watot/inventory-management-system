@@ -37,6 +37,7 @@
 			  <a class="nav-link" id="v-pills-customer-tab" data-toggle="pill" href="#v-pills-customer" role="tab" aria-controls="v-pills-customer" aria-selected="false" style="font-family:Arial Black"> CUSTOMER</a>
 			  <a class="nav-link" id="v-pills-search-tab" data-toggle="pill" href="#v-pills-search" role="tab" aria-controls="v-pills-search" aria-selected="false" style="font-family:Arial Black"> SEARCH </a>
 			  <a class="nav-link" id="v-pills-reports-tab" data-toggle="pill" href="#v-pills-reports" role="tab" aria-controls="v-pills-reports" aria-selected="false" style="font-family:Arial Black"> REPORT </a>
+			  <a class="nav-link" id="v-pills-user-tab" data-toggle="pill" href="#v-pills-user" role="tab" aria-controls="v-pills-user" aria-selected="false" style="font-family:Arial Black"> ADD USER </a>
 			</div>
 		</div>
 		 <div class="col-lg-10" style="font-family: Courier New">
@@ -244,13 +245,24 @@
 					  </div>
 					  <div class="form-row">
 						  <div class="form-group col-md-3">
-							<label for="vendorDetailsVendorMobile">Phone (mobile)<span class="requiredIcon">*</span></label>
-							<input type="text" class="form-control invTooltip" id="vendorDetailsVendorMobile" name="vendorDetailsVendorMobile" title="Do not enter leading 0">
+							<label for="vendorDetailsVendorMobile"> Phone (mobile)<span class="requiredIcon">*</span></label>
+							<input type="tel" inputmode="numeric" maxlength="11" pattern="[0-9]{10}" class="form-control invTooltip" id="vendorDetailsVendorMobile" name="vendorDetailsVendorMobile" title="Do not enter leading 0">
 						  </div>
 						  <div class="form-group col-md-3">
-							<label for="vendorDetailsVendorPhone2">Phone 2</label>
-							<input type="text" class="form-control invTooltip" id="vendorDetailsVendorPhone2" name="vendorDetailsVendorPhone2" title="Do not enter leading 0">
+							<label for="vendorDetailsVendorPhone2"> Phone 2 <span class="requiredIcon">*</span></label>
+							<input type="tel" maxlength="11" class="form-control invTooltip" id="vendorDetailsVendorPhone2" name="vendorDetailsVendorPhone2" title="Do not enter leading 0">
 						  </div>
+						  <script>
+    const vendorDetailsVendorMobile = document.getElementById('vendorDetailsVendorMobile');
+    const vendorDetailsVendorPhone2 = document.getElementById('vendorDetailsVendorPhone2');
+
+    vendorDetailsVendorMobile.addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+    vendorDetailsVendorPhone2.addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+</script>
 						  <div class="form-group col-md-6">
 							<label for="vendorDetailsVendorEmail">Email</label>
 							<input type="email" class="form-control" id="vendorDetailsVendorEmail" name="vendorDetailsVendorEmail">
@@ -388,15 +400,26 @@
 					  <div class="form-row">
 						  <div class="form-group col-md-3">
 							<label for="customerDetailsCustomerMobile">Phone (mobile)<span class="requiredIcon">*</span></label>
-							<input type="text" class="form-control invTooltip" id="customerDetailsCustomerMobile" name="customerDetailsCustomerMobile" title="Do not enter leading 0">
+							<input type="tel" inputmode="numeric" maxlength="11" pattern="[0-9]{10}" class="form-control invTooltip" id="customerDetailsCustomerMobile" name="customerDetailsCustomerMobile" title="Do not enter leading 0">
 						  </div>
 						  <div class="form-group col-md-3">
 							<label for="customerDetailsCustomerPhone2">Phone 2</label>
-							<input type="text" class="form-control invTooltip" id="customerDetailsCustomerPhone2" name="customerDetailsCustomerPhone2" title="Do not enter leading 0">
+							<input type="tel" inputmode="numeric" maxlength="11" pattern="[0-9]{10}" class="form-control invTooltip" id="customerDetailsCustomerPhone2" name="customerDetailsCustomerPhone2" title="Do not enter leading 0">
 						  </div>
+<script>
+    const customerDetailsCustomerPhone = document.getElementById('customerDetailsCustomerPhone');
+    const customerDetailsCustomerPhone2 = document.getElementById('customerDetailsCustomerPhone2');
+
+    customerDetailsCustomerPhone.addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+    customerDetailsCustomerPhone2.addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+</script>
 						  <div class="form-group col-md-6">
 							<label for="customerDetailsCustomerEmail">Email</label>
-							<input type="email" class="form-control" id="customerDetailsCustomerEmail" name="customerDetailsCustomerEmail">
+							<input type="email" pattern=".+@.+" class="form-control" id="customerDetailsCustomerEmail" name="customerDetailsCustomerEmail">
 						</div>
 					  </div>
 					  <div class="form-group">
@@ -483,6 +506,7 @@
 				</div>
 			  </div>
 			  
+			  
 			  <div class="tab-pane fade" id="v-pills-reports" role="tabpanel" aria-labelledby="v-pills-reports-tab">
 				<div class="card card-outline-secondary my-4">
 				  <div class="card-header" style="font-family: Courier New">Reports<button id="reportsTablesRefresh" name="reportsTablesRefresh" class="btn btn-success float-right btn-sm">Refresh</button></div>
@@ -507,6 +531,7 @@
 							<a class="nav-link" data-toggle="tab" href="#logsReportsTab"> Logs </a>
 						</li>
 					</ul>
+				
   
 					<!-- Tab panes for reports sections -->
 					<div class="tab-content">
@@ -574,8 +599,82 @@
 				  </div> 
 				</div>
 			  </div>
+
+
+
+			  <div class="tab-pane fade" id="v-pills-user" role="tabpanel" aria-labelledby="v-pills-user-tab">
+	<div class="card card-outline-secondary my-4">
+		<div class="card-header" style="font-family: Courier New">Register Account</div>
+		<div class="card-body">
+			<div id="userDetailsMessage"></div>
+			<form style="font-family: Courier New">
+				<div class="form-row">
+					<div class="container">
+						<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+						<script>
+							$(document).ready(function() {
+								// Show/hide password toggle
+								$('.show-password-icon').on('click', function() {
+									var passwordField = $(this).closest('.form-group').find('.password-field');
+									var passwordFieldType = passwordField.attr('type');
+									var passwordFieldNewType = (passwordFieldType === 'password') ? 'text' : 'password';
+									passwordField.attr('type', passwordFieldNewType);
+								});
+							});
+						</script>
+
+						<form action="">
+							<div id="registerMessage"></div>
+							<div class="form-group">
+								<label for="registerFullName">Full Name<span class="requiredIcon">*</span></label>
+								<input style="width: 39%" type="text" class="form-control" id="registerFullName" name="registerFullName">
+								<!-- <small id="emailHelp" class="form-text text-muted"></small> -->
+							</div>
+							<div class="form-group">
+								<label for="registerUsername">Username<span class="requiredIcon">*</span></label>
+								<input style="width: 39%" type="email" class="form-control" id="registerUsername" name="registerUsername" autocomplete="on">
+							</div>
+							<div class="form-group">
+								<label for="registerPassword1">Password<span class="requiredIcon">*</span></label>
+								<div  style="width: 39%" class="input-group">
+									<input type="password" class="form-control password-field" id="registerPassword1" name="registerPassword1">
+									<div class="input-group-append">
+										<span class="input-group-text show-password-icon" style="cursor: pointer;">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+</svg>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="registerPassword2">Re-enter password<span class="requiredIcon">*</span></label>
+								<div  style="width: 39%" class="input-group">
+									<input type="password" class="form-control password-field" id="registerPassword2" name="registerPassword2">
+									<div class="input-group-append">
+										<span class="input-group-text show-password-icon" style="cursor: pointer;">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+</svg>
+									</div>
+								</div>
+							</div>
+							<a href="login.php" class="btn btn-primary">Login</a>
+							<button type="button" id="register" class="btn btn-success">Register</button>
+							<a href="login.php?action=resetPassword" class="btn btn-warning">Reset Password</a>
+							<button type="reset" class="btn">Clear</button>
+						</form>
+
+				  </div>
+				
+				</div>
 			</div>
-		 </div>
+				  </div>
+					</form>
+				  </div> 
+				</div>
+			  </div>
 	  </div>
     </div>
 <?php

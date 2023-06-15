@@ -1,8 +1,36 @@
-<script>
-    start_loader()
+<?php
+session_start();
+error_reporting(1);
+require_once('inc/config/constants.php');
 
-    require_once('inc/header.html');
-  </script>
+
+if(isset($_POST['btnlogin']))
+{
+
+$username = $_POST['txtusername'];
+$password = $_POST['txtpassword'];
+
+ $sql = "SELECT * FROM employee WHERE username='" .$username . "' and password = '". $password."'";
+    $result = mysqli_query($PDO,$sql);
+    $row  = mysqli_fetch_array($result);
+
+     $_SESSION["admin-username"] = $row['username'];
+
+
+     $count=mysqli_num_rows($result);
+     if($count >0 && isset($_SESSION["admin-username"])) {
+    {
+           header("Location: home.php"); 
+    }
+}
+else { 
+$_SESSION['error']=' Wrong Username and Password';
+         }
+
+    }
+
+
+?>
  <html>
 <head>
   <title>Login Page</title>
@@ -104,14 +132,14 @@
               <div id="loginMessage"></div>
               <div class="form-group">
                 <label for="loginUsername">Username</label> <br>
-                <input type="text" name="username" class="form-control" id="loginUsername" placeholder="username">
+                <input type="text" name="txtusername" class="form-control" id="loginUsername" placeholder="username">
               </div>
               <div class="form-group">
                 <label for="loginPassword">Password</label><br>
-                <input type="password" name="password" class="form-control" id="loginPassword" placeholder="Password">
+                <input type="password" name="txtpassword" class="form-control" id="loginPassword" placeholder="Password">
               </div>
-              <button type="submit" id="login" name="submit" class="btn btn-primary">Admin Login</button>
-              <a href="employee.php" class="btn btn-success">Employee Login</a>
+             <!-- <button type="submit" id="login" name="submit" class="btn btn-primary">Admin Login</button> -->
+              <button name= "btnlogin" class="btn btn-success" type= "submit">Employee Login </button>
               <button type="reset" class="btn">Clear</button>
             </form>
           </div>

@@ -1,7 +1,7 @@
     <!-- Footer -->
     <footer class="footer bg-white">
       <div class="container">
-        <p class="m-0 text-center text-black" style="font-family:Arial Black" > SPI Sales and Inventory 2023 <?php ('Y'); ?></p>
+        <p class="m-0 text-center text-black" style="font-family:Arial Black" > SPI Sales and Inventory 2023 V1.0 <?php ('Y'); ?></p>
       </div>
     </footer>
 

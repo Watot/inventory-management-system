@@ -25,11 +25,11 @@
 			}
 			
 			// Check if mobile phone is empty
-			if($mobile == ''){
+			/*if($mobile == ''){
 				// Mobile phone 1 is empty
 				echo '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert">&times;</button>Please enter mobile phone number.</div>';
 				exit();
-			}
+			}*/
 			
 			// Validate second phone number only if it's provided by user
 			if(!empty($phone2)){

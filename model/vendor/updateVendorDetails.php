@@ -82,7 +82,7 @@
 					$updateVendorInPurchaseTableStatement = $conn->prepare($updateVendorInPurchaseTableSql);
 					$updateVendorInPurchaseTableStatement->execute(['vendorName' => $vendorDetailsVendorFullName, 'vendorID' => $vendorDetailsVendorID]);
 					
-					echo '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Vendor details updated.</div>';
+					echo '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Supplier details updated.</div>';
 					exit();
 				} else {
 					// vendorID is not in DB. Therefore, stop the update and quit
