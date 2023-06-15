@@ -11,19 +11,86 @@ body {
 </style>
 
 <?php
-	session_start();
+	// session_start();
 	
 	
-	// Check if user is already logged in
-	if(isset($_SESSION['loggedIn'])){
-		header('Location: index.php');
-		exit();
-	}
+	// // Check if user is already logged in
+	// if(isset($_SESSION['loggedIn'])){
+	// 	header('Location: index.php');
+	// 	exit();
+	// }
 	
 	require_once('inc/config/constants.php');
 	require_once('inc/config/db.php');
 	require_once('inc/header.html');
 ?>
+<?php
+session_start();
+// Database connection configuration
+$dsn = 'mysql:host=localhost;dbname=shop_inventory';
+$username = 'root';
+$password = '';
+
+// Establish the database connection
+try {
+    $pdo = new PDO($dsn, $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
+}
+
+// Function to securely hash the password
+function hashPassword($password) {
+    return md5($password);
+}
+
+// Function to verify the hashed password
+function verifyPassword($password, $hashedPassword) {
+    return md5($password) === $hashedPassword;
+}
+
+// Check if the login form is submitted
+if (isset($_POST['submit'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    // Query to fetch the hashed password for the given username
+    $query = "SELECT password FROM user WHERE username = :username";
+    $statement = $pdo->prepare($query);
+    $statement->bindParam(':username', $username);
+    $statement->execute();
+
+    // Fetch the row
+    $row = $statement->fetch(PDO::FETCH_ASSOC);
+
+    // Verify the password
+    if ($row && verifyPassword($password, $row['password'])) {
+        // Password is correct, login successful
+        // echo "Login successful!";
+        $_SESSION['username'] = $username;
+        header("Location: index.php");
+        exit;
+
+        // Perform any additional actions or redirect the user
+    } else {
+        // Invalid username or password
+        // echo "Invalid username or password!";
+        echo '<script>alert("Invalid username or password!");</script>';
+
+    }
+}
+?>
+<link rel="manifest" href="admin-manifest.json">
+    <script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('admin-service-worker.js')
+        .then(function(registration) {
+            console.log('Service Worker registered with scope:', registration.scope);
+        }).catch(function(error) {
+            console.log('Service Worker registration failed:', error);
+        });
+    }
+    </script>
   <body>
 
 <?php
@@ -125,21 +192,22 @@ $action = '';
 			Login
 		  </div>
 		  <div class="card-body">
-			<form action="">
+		  <form action="" method="POST">
 			<div id="loginMessage"></div>
 			  <div class="form-group">
 				<label for="loginUsername">Username</label>
-				<input type="text" class="form-control" id="loginUsername" name="loginUsername">
+				<input type="text" class="form-control" id="loginUsername" name="username">
 			  </div>
 			  <div class="form-group">
 				<label for="loginPassword">Password</label>
-				<input type="password" class="form-control" id="loginPassword" name="loginPassword">
+				<input type="password" class="form-control" id="loginPassword" name="password">
 				</div>
 			  <!--<div class="form-group">
 						<label for="resetPasswordPassword2">Confirm New Password</label>
 						<input type="password" class="form-control" id="resetPasswordPassword2" name="resetPasswordPassword2">
 					  </div> -->
-			  <button type="button" id="login" class="btn btn-primary"> Admin Login</button>
+			<input type="submit" class="btn btn-success" style="" name="submit" value="Login">
+			  <!-- <button type="button" id="login" class="btn btn-primary"> Admin Login</button> -->
 			 <!--  <a href="employee.php" class="btn btn-success">Employee Login</a> -->
 			  
 			  <button type="reset" class="btn">Clear</button>

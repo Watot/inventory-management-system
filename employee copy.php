@@ -1,7 +1,7 @@
 <?php
-session_start();
-error_reporting(1);
-require_once('inc/config/constants.php');
+// session_start();
+// error_reporting(1);
+// require_once('inc/config/constants.php');
 
 
 if(isset($_POST['btnlogin']))
@@ -128,7 +128,7 @@ $_SESSION['error']=' Wrong Username and Password';
             Login
           </div>
           <div class="card-body">
-            <form action="home.php" method="POST">
+            <form action="employee.php" method="POST">
               <div id="loginMessage"></div>
               <div class="form-group">
                 <label for="loginUsername">Username</label> <br>
@@ -139,7 +139,7 @@ $_SESSION['error']=' Wrong Username and Password';
                 <input type="password" name="txtpassword" class="form-control" id="loginPassword" placeholder="Password">
               </div>
              <!-- <button type="submit" id="login" name="submit" class="btn btn-primary">Admin Login</button> -->
-              <button name= "btnlogin" class="btn btn-success" type= "submit">Employee Login </button>
+              <button name= "btnlogin" class="btn btn-success" type="submit">Employee Login </button>
               <button type="reset" class="btn">Clear</button>
             </form>
           </div>

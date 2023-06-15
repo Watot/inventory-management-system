@@ -1,10 +1,10 @@
 <?php
 	session_start();
 	// Redirect the user to login page if he is not logged in.
-	if(!isset($_SESSION['loggedIn'])){
-		header('Location: login.php');
-		exit();
-	}
+	// if(!isset($_SESSION['loggedIn'])){
+	// 	header('Location: login.php');
+	// 	exit();
+	// }
 	
 	require_once('inc/config/constants.php');
 	require_once('inc/config/db.php');
@@ -12,7 +12,7 @@
 ?>
   <body>
 <?php
-	require 'inc/navigation.php';
+	require 'inc/nav_admin.php';
 ?>
 <style> 
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
@@ -24,7 +24,21 @@
 }
 
 </style>
+<script>
+	function addItem() {
+	var item = document.getElementById("sample").value;
+	var description = document.getElementById("sample1").value;
+	var table = document.getElementById("itemTable");
+	var newRow = table.insertRow(table.rows.length);
+	var itemCell = newRow.insertCell(0);
+	itemCell.innerHTML = item;
+	var descriptionCell = newRow.insertCell(1);
+	descriptionCell.innerHTML = description;
+	}
+</script>
     <!-- Page Content -->
+
+
     <div class="container-fluid" >
 	  <div class="row">
 		<div class="col-lg-2"  >
@@ -38,6 +52,7 @@
 			  <a class="nav-link" id="v-pills-search-tab" data-toggle="pill" href="#v-pills-search" role="tab" aria-controls="v-pills-search" aria-selected="false" style="font-family:Arial Black"> SEARCH </a>
 			  <a class="nav-link" id="v-pills-reports-tab" data-toggle="pill" href="#v-pills-reports" role="tab" aria-controls="v-pills-reports" aria-selected="false" style="font-family:Arial Black"> REPORT </a>
 			  <a class="nav-link" id="v-pills-user-tab" data-toggle="pill" href="#v-pills-user" role="tab" aria-controls="v-pills-user" aria-selected="false" style="font-family:Arial Black"> ADD USER </a>
+			  
 			</div>
 		</div>
 		 <div class="col-lg-10" style="font-family: Courier New">
@@ -52,6 +67,9 @@
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" data-toggle="tab" href="#itemImageTab">Upload Image</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="add_bulk.php">Upload Bulk</a>
 						</li>
 					</ul>
 					
@@ -152,6 +170,31 @@
 							  <button type="reset" class="btn">Clear</button>
 							</form>
 						</div>
+
+						<!-- Upload Bulk -->
+
+						<!-- <div id="itemBulkTab" class="container-fluid tab-pane fade">
+							<br>
+							<div id="itemImageMessage"></div>
+							<p>You can upload bulk item using this section.</p> 
+							<form>
+								<label for="item">Item:</label>
+								<input type="text" id="sample" name="item"><br><br>
+
+								<label for="description">Description:</label>
+								<textarea id="description" name="sample1" rows="4" cols="50"></textarea><br><br>
+
+								<input type="button" value="Hi" onclick="addItem()">
+							</form>
+							
+							<table id="itemTable">
+								<tr>
+								<th>Item</th>
+								<th>Description</th>
+								</tr>
+							</table>
+						</div> -->
+
 					</div>
 				  </div> 
 				</div>
@@ -592,8 +635,63 @@
 						</div>
 						<div id="logsReportsTab" class="container-fluid tab-pane fade">
 							<br>
-							<p>Use the grid below to get reports for Suppliers</p>
-							<div class="table-responsive" id="logsReportsTableDiv"></div>
+							<!-- <p>Hi Use the grid below to get reports for Suppliers</p> -->
+							<div class="table-responsive" id="logsReportsTableDiv">
+							<?php
+								// Database credentials
+								$servername = "localhost";
+								$username = "root";
+								$password = "";
+								$dbname = "shop_inventory";
+
+								try {
+									// Connect to the database
+									$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+									
+									// Set PDO error mode to exception
+									$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+									
+									// Fetch all data from the user log table
+									$stmt = $conn->prepare("SELECT * FROM userlog");
+									$stmt->execute();
+									$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+									
+									// Close the database connection
+									$conn = null;
+								} catch(PDOException $e) {
+									// Handle potential database connection errors
+									echo "Connection failed: " . $e->getMessage();
+									exit();
+								}
+								?>			
+							<table id="vendorDetailsTable" class="table table-sm  table-bordered table-hover" style="width:100%">
+								<tr>
+									<th>User ID</th>
+									<th>Username</th>
+									<th>Date & Time</th>
+									<th>Type</th>
+									<!-- Add more table headers for your columns as needed -->
+								</tr>
+								<?php foreach ($data as $row): ?>
+								<tr>
+									<td><?php echo $row['employeeID']; ?></td>
+									<td><?php echo $row['username']; ?></td>
+									<td><?php echo date("F d, Y - l [g:i:s A]", strtotime($row["loginTime"])); ?></td>
+									
+									<td><?php
+									if ($row['status'] == 0)
+									{
+										echo "Login";
+									}
+									else{
+										echo "Logout";
+									}
+								?> </td>
+									<!-- Add more table cells for your columns as needed -->
+								</tr>
+								<?php endforeach; ?>
+							</table>
+							</div>
 						</div>
 					</div>
 				  </div> 
@@ -660,9 +758,9 @@
 									</div>
 								</div>
 							</div>
-							<a href="login.php" class="btn btn-primary">Login</a>
+							<!-- <a href="login.php" class="btn btn-primary">Login</a> -->
 							<button type="button" id="register" class="btn btn-success">Register</button>
-							<a href="login.php?action=resetPassword" class="btn btn-warning">Reset Password</a>
+							<!-- <a href="login.php?action=resetPassword" class="btn btn-warning">Reset Password</a> -->
 							<button type="reset" class="btn">Clear</button>
 						</form>
 

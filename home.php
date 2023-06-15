@@ -6,9 +6,20 @@ session_start();
 
 ?>
 
+<?php
+// session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION['username'])) {
+    // User is not logged in, redirect to the login page
+    header("Location: login_emp.php");
+    exit;
+}
+?>
+
   <body>
 <?php
-	require 'inc/navigation.php';
+	require 'inc/nav_emp.php';
 ?>
 <style> 
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
@@ -21,6 +32,7 @@ session_start();
 
 </style>
     <!-- Page Content -->
+
     <div class="container-fluid" >
 	  <div class="row">
 		<div class="col-lg-2"  >

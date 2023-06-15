@@ -28,7 +28,7 @@
 				</form>
 			</li> -->
 			<li class="nav-item">
-				<span class="nav-link">Welcome</span>
+				<span class="nav-link">Welcome 	<?php echo $_SESSION['username']?></span>
             </li>
 			<li class="nav-item">
 				<span class="nav-link"> | </span>
